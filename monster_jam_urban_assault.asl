@@ -137,7 +137,7 @@ update
     if (vars.split < vars.lapsCompletedArray.Count)
         vars.lapsCompleted = vars.lapsCompletedArray[vars.split];
 
-    return !settings["ds_worldseries_usa"] && !settings["ds_speedster_eur"] && !settings["ds_worldseries_eur"];
+    return settings["ds_speedster_usa"] && !settings["ds_worldseries_usa"] && !settings["ds_speedster_eur"] && !settings["ds_worldseries_eur"];
 }
 
 start
