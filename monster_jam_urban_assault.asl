@@ -41,6 +41,15 @@ state("DeSmuME_0.9.13_x64")
 
 }
 
+startup
+{
+    print(":3");
+    settings.Add("ds", false, "Nintendo DS");
+    settings.SetToolTip("ds", "Use with DeSmuME 0.9.13");
+    settings.Add("ds_speedster_usa", false, "Speedster% (USA)", "ds");
+    settings.Add("ds_worldseries_usa", false, "World Series% (USA)", "ds");
+}
+
 init
 {
     vars.SPEEDSTER_START_USA = 0;
@@ -141,13 +150,4 @@ split
 reset
 {
     return vars.oldSceneID == vars.raceID[vars.split] && vars.sceneID == 0 && vars.lapsCompleted < 3;
-}
-
-startup
-{
-    print(":3");
-    settings.Add("ds", false, "Nintendo DS");
-    settings.SetToolTip("ds", "Use with DeSmuME 0.9.13");
-    settings.Add("ds_speedster_usa", false, "Speedster% (USA)", "ds");
-    settings.Add("ds_worldseries_usa", false, "World Series% (USA)", "ds");
 }
