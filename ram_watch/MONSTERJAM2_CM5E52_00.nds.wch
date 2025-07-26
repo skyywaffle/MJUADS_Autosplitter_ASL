@@ -1,6 +1,8 @@
 
-4
+6
 00000	00000000	b	s	0	USA ADDRESSES
 00001	00000000	S	S	0	----------------------------
-00002	023208E8	b	s	0	San Fran Streets Placement
-00003	0235C231	b	s	0	Race Active
+00002	0235C231	b	s	0	Race Active
+00003	02136441	b	s	0	Race Placement
+00004	023208EC	b	s	0	San Fran Streets Laps Completed
+00005	022833F4	b	u	0	Scene
