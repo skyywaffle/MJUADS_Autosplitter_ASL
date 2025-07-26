@@ -15,25 +15,25 @@ state("DeSmuME_0.9.13_x64")
     // USA variables
     bool raceActive_USA : 0xAC71631;                        // 0x235C231
     uint racePlacement_USA : 0xAA4B841;                     // 0x2136441
-    byte sceneID_USA : 0xAC6FF45;                           // idk i grabbed this from my old asl attempt 😁
+    byte sceneID_USA : 0xAC6FF45;                           // 0x235AB45
     byte lapsCompleted_sanFranStreets_USA : 0xAC35CEC;      // 0x23208EC
     byte lapsCompleted_londonRails_USA : 0xAC2F040;         // 0x2319C40
     byte lapsCompleted_chicagoCarnage_USA : 0xAC343C8;      // 0x231EFC8
     byte lapsCompleted_brooklynNights_USA : 0xAC35D5C;      // 0x232095C
     byte lapsCompleted_coastalCruise_USA : 0xAC31918;       // 0x231C518
-    byte lapsCompleted_theGauntlet_USA : 0xAC39BA0;         // 0x23256A0
-    byte lapsCompleted_retailRacing_USA : 0xAC316A8;        // 0x231C2A8
+    byte lapsCompleted_theGauntlet_USA : 0xAC3B119;         // 0x23256A0
+    byte lapsCompleted_retailRacing_USA : 0xAC31D21;        // 0x231C2A8
     byte lapsCompleted_backyardBattle_USA : 0xAC2BEFC;      // 0x2316AFC
     byte lapsCompleted_mallMadness_USA : 0xAC326A4;         // 0x231D2A4
     byte lapsCompleted_factoryFury_USA : 0xAC2DD6C;         // 0x231896C
-    byte lapsCompleted_californiaClash_USA : 0xAC2CEE0;     // 0x23189E0
+    byte lapsCompleted_californiaClash_USA : 0xAC2DDE0;     // 0x23189E0
     byte lapsCompleted_detroitDistricts_USA : 0xAC381D4;    // 0x2322DD4
     byte lapsCompleted_warehouseWar_USA : 0xAC39708;        // 0x2324308
-    byte lapsCompleted_constructionPit_USA : 0xAC35DBC;     // 0x23218BC
+    byte lapsCompleted_constructionPit_USA : 0xAC36CBC;     // 0x23218BC
     byte lapsCompleted_roadworksRumble_USA : 0xAC383EC;     // 0x2322FEC
     byte lapsCompleted_bostonBattle_USA : 0xAC38DD0;        // 0x23239D0
     byte lapsCompleted_stadiumCircuit_USA : 0xAC39220;      // 0x2323E20
-    byte lapsCompleted_shoppingPrecinct_USA : 0xAC40388;    // 0x232BE88
+    byte lapsCompleted_shoppingPrecinct_USA : 0xAC41288;    // 0x232BE88
     byte lapsCompleted_stadiumStandoff_USA : 0xAC3B900;     // 0x2326500
 
 
@@ -43,54 +43,9 @@ state("DeSmuME_0.9.13_x64")
 
 init
 {
+    vars.SPEEDSTER_START_USA = 0;
+    vars.WORLD_SERIES_START_USA = 19;
     vars.split = 0;
-    vars.trackNames = new List<string> {
-        "San Fran Streets",
-        "London Rails",
-        "Chicago Carnage",
-        "Brooklyn Nights",
-        "Coastal Cruise",
-        "The Gauntlet",
-        "Retail Racing",
-        "Backyard Battle",
-        "Mall Madness",
-        "Factory Fury",
-        "California Clash",
-        "Detroit Districts",
-        "Warehouse War",
-        "Construction Pit",
-        "Roadworks Rumble",
-        "Boston Battle",
-        "Stadium Circuit",
-        "Shopping Precinct",
-        "Stadium Standoff",
-
-        "Detroit",
-        "Minneapolis",
-        "Orlando Race",
-        "Houston",
-        "Orlando",
-        "San Diego Race",
-        "Miami",
-        "St. Louis",
-        "Houston Race",
-        "San Diego",
-        "Oakland",
-        "Detroit Race",
-        "San Antonio",
-        "Tacoma",
-        "Miami Race",
-        "Oakland 2",
-        "Indianapolis",
-        "Minneapolis Race",
-        "St. Louis 2",
-        "New Orleans",
-        "Las Vegas Race",
-        "Las Vegas"
-    };
-
-    // TODO: Declare raceActive and arrays for raceID, racePlacement, raceFinished, and their old counterparts.
-    // Update these through the update descriptor.
 
     // There are some duplicate IDs but it's hard to find a memory address that works
     vars.raceID = new List<uint> {
@@ -113,8 +68,6 @@ init
         102, // Stadium Circuit
         251, // Shopping Precinct
         55 // Stadium Standoff
-
-        // and then the world series tracks......
     };
 
     vars.sceneID = 0;
@@ -185,7 +138,16 @@ split
     }
 }
 
+reset
+{
+    return vars.oldSceneID == vars.raceID[vars.split] && vars.sceneID == 0 && vars.lapsCompleted < 3;
+}
+
 startup
 {
     print(":3");
+    settings.Add("ds", false, "Nintendo DS");
+    settings.SetToolTip("ds", "Use with DeSmuME 0.9.13");
+    settings.Add("ds_speedster_usa", false, "Speedster% (USA)", "ds");
+    settings.Add("ds_worldseries_usa", false, "World Series% (USA)", "ds");
 }
