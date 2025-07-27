@@ -153,7 +153,7 @@ update
 
 start
 {
-    if (!vars.raceActive && (vars.buttonsPressed - vars.oldButtonsPressed == 1) && vars.cursorPosition == 2 /* 0 */)
+    if (!vars.raceActive && (vars.buttonsPressed - vars.oldButtonsPressed == 1) && vars.cursorPosition == 0)
     {
         vars.split = 18;
         return true;
