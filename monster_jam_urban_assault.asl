@@ -13,6 +13,8 @@ state("DeSmuME_0.9.13_x64")
 {
     // The comments on each address declaration are the RAM addresses as seen by DeSmuME
     // USA variables
+    byte ds_buttonsPressed_USA : 0xACEC268;                    // 0x23D6E68
+    byte ds_cursorPosition_USA : 0xAC6CF34;                    // 0x2357B34
     bool ds_raceActive_USA : 0xAC71631;                        // 0x235C231
     byte ds_racePlacement_USA : 0xAA4B841;                     // 0x2136441
     byte ds_sceneID_USA : 0xAC6FF45;                           // 0x235AB45
@@ -55,6 +57,7 @@ startup
 init
 {
     vars.split = 0;
+    vars.delayedSplitFrames = -1;
     vars.raceID = new List<byte>{};
     
 
@@ -63,11 +66,15 @@ init
     vars.lapsCompleted = 0;
     vars.lapsCompletedArray = new List<uint>{};
     vars.raceActive = 0;
+    vars.buttonsPressed = 0;
+    vars.cursorPosition = 0;
 
     vars.oldSceneID = 0;
     vars.oldRacePlacement = 0;
     vars.oldLapsCompleted = 0;
     vars.oldRaceActive = 0;
+    vars.oldButtonsPressed = 0;
+    vars.oldCursorPosition = 0;
 
     refreshRate = 60;
 }
@@ -77,12 +84,16 @@ update
     vars.oldSceneID = vars.sceneID;
     vars.oldRacePlacement = vars.racePlacement;
     vars.oldRaceActive = vars.raceActive;
+    vars.oldButtonsPressed = vars.buttonsPressed;
+    vars.oldCursorPosition = vars.cursorPosition;
     
     if (settings["ds_speedster_usa"] || settings["ds_worldseries_usa"])
     {
         vars.sceneID = current.ds_sceneID_USA;
         vars.racePlacement = current.ds_racePlacement_USA;
         vars.raceActive = current.ds_raceActive_USA;
+        vars.buttonsPressed = current.ds_buttonsPressed_USA;
+        vars.cursorPosition = current.ds_cursorPosition_USA;
     }
 
     vars.oldLapsCompleted = vars.lapsCompleted;
@@ -142,10 +153,9 @@ update
 
 start
 {
-    if (vars.raceActive && !vars.oldRaceActive)
+    if (!vars.raceActive && (vars.buttonsPressed - vars.oldButtonsPressed == 1) && vars.cursorPosition == 2 /* 0 */)
     {
-
-        vars.split = 0;
+        vars.split = 18;
         return true;
     }
 }
@@ -153,14 +163,33 @@ start
 
 split
 {
-    if (vars.lapsCompleted == 3 && vars.oldLapsCompleted == 2 && vars.sceneID == vars.raceID[vars.split])
+    // Delay splitting a bit, to align with manual frame retiming better
+    if (vars.delayedSplitFrames == 0)
+    {
+        vars.delayedSplitFrames = -1;
+        return true;
+    }
+
+    else if (vars.delayedSplitFrames > 0)
+    {
+        vars.delayedSplitFrames--;
+    }
+
+    else if (vars.lapsCompleted == 3 && vars.oldLapsCompleted == 2 && vars.sceneID == vars.raceID[vars.split])
     {
         vars.split++;
-        return true;
+        if (vars.split == 19) // delay splitting on stadium standoff to align with manual retime
+        {    
+            vars.delayedSplitFrames = 5;
+        }
+        else
+        {
+            return true;
+        }
     }
 }
 
 reset
 {
-    return vars.oldSceneID == vars.raceID[vars.split] && vars.sceneID == 0 && vars.lapsCompleted < 3;
+    return vars.split < vars.raceID.Count && vars.oldSceneID == vars.raceID[vars.split] && vars.sceneID == 0 && vars.lapsCompleted < 3;
 }
