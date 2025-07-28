@@ -163,7 +163,7 @@ start
 {
     if (!vars.raceActive && (vars.buttonsPressed - vars.oldButtonsPressed == 1) && vars.cursorPosition == 0)
     {
-        vars.split = 18;
+        vars.split = 0;
         return true;
     }
 }
@@ -171,33 +171,39 @@ start
 
 split
 {
-    // Delay splitting a bit, to align with manual frame retiming better
-    if (vars.delayedSplitFrames == 0)
+    if (settings["ds_speedster_usa"])
     {
-        vars.delayedSplitFrames = -1;
-        return true;
-    }
-
-    else if (vars.delayedSplitFrames > 0)
-    {
-        vars.delayedSplitFrames--;
-    }
-
-    else if (vars.lapsCompleted == 3 && vars.oldLapsCompleted == 2 && vars.sceneID == vars.raceID[vars.split])
-    {
-        vars.split++;
-        if (vars.split == 19) // delay splitting on stadium standoff to align with manual retime
-        {    
-            vars.delayedSplitFrames = 5;
-        }
-        else
+        // Delay splitting a bit, to align with manual frame retiming better
+        if (vars.delayedSplitFrames == 0)
         {
+            vars.delayedSplitFrames = -1;
             return true;
+        }
+
+        else if (vars.delayedSplitFrames > 0)
+        {
+            vars.delayedSplitFrames--;
+        }
+
+        else if (vars.lapsCompleted == 3 && vars.oldLapsCompleted == 2 && vars.sceneID == vars.raceID[vars.split])
+        {
+            vars.split++;
+            if (vars.split == 19) // delay splitting on stadium standoff to align with manual retime
+            {    
+                vars.delayedSplitFrames = 5;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
 
 reset
 {
-    return vars.split < vars.raceID.Count && vars.oldSceneID == vars.raceID[vars.split] && vars.sceneID == 0 && vars.lapsCompleted < 3;
+    if (settings["ds_speedster_usa"])
+    {
+        return vars.split < vars.raceID.Count && vars.oldSceneID == vars.raceID[vars.split] && vars.sceneID == 0 && vars.lapsCompleted < 3;
+    }
 }
