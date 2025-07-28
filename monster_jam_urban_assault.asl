@@ -38,6 +38,14 @@ state("DeSmuME_0.9.13_x64")
     byte ds_lapsCompleted_shoppingPrecinct_USA : 0xAC41288;    // 0x232BE88
     byte ds_lapsCompleted_stadiumStandoff_USA : 0xAC3B900;     // 0x2326500
 
+    byte ds_freestylePoints_USA : 0xA9DFFCC;                   // 0x20CABCC
+    byte ds_lapsCompleted_orlando_USA : 0xAC369F4;             // 0x23215F4
+    byte ds_lapsCompleted_sanDiego_USA : 0xAC4617C;            // 0x2330D7C
+    byte ds_lapsCompleted_houston_USA : 0xAC3A6A8;             // 0x23252A8
+    byte ds_lapsCompleted_detroit_USA : 0xAC44340;             // 0x232EF40
+    byte ds_lapsCompleted_miami_USA : 0xAC4945C;               // 0x233405C
+    byte ds_lapsCompleted_minneapolis_USA : 0xAC42648;         // 0x232D248
+    byte ds_lapsCompleted_lasVegas_USA : 0xAC4A31C;            // 0x2334F1C
 
     // EUR variables
 
