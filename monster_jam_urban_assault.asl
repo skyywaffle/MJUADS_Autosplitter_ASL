@@ -47,6 +47,8 @@ state("DeSmuME_0.9.13_x64")
     byte ds_lapsCompleted_minneapolis_USA : 0xAC42648;         // 0x232D248
     byte ds_lapsCompleted_lasVegas_USA : 0xAC4A31C;            // 0x2334F1C
 
+    byte4 ds_detroitFreestylePointsArray : 0xAC4AE20;          // 0x2335A20
+
     // EUR variables
 
 }
@@ -76,6 +78,16 @@ init
     vars.raceActive = 0;
     vars.buttonsPressed = 0;
     vars.cursorPosition = 0;
+    vars.worldSeriesTrackCompleted = 0;
+    vars.worldSeriesTrackCompletedArray = new List<bool>{};
+    
+    vars.worldSeriesFreestyleMinimumPoints = new List<uint> {
+        /* List minimum points to get 3rd place for Freestyle events,
+         * with a placeholder value for stadium races where obviously
+         * minimum points is not applicable.
+         */
+
+    };
 
     vars.oldSceneID = 0;
     vars.oldRacePlacement = 0;
@@ -83,6 +95,7 @@ init
     vars.oldRaceActive = 0;
     vars.oldButtonsPressed = 0;
     vars.oldCursorPosition = 0;
+    vars.oldWorldSeriesTrackCompleted = 0;
 
     refreshRate = 60;
 }
