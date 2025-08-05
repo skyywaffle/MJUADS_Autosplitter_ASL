@@ -1,7 +1,32 @@
 
-5
-00000	02335A20	b	s	0	Detroit Stunt Points
-00001	02335A21	b	s	0	Detroit Variation Points
-00002	02335A22	b	s	0	Detroit Destruction Points
-00003	02335A23	b	s	0	Detroit Time Usage
-00004	02336AD0	b	s	0	Detroit Freestyle Completion
+30
+00000	02335A20	b	s	0	Detroit Points Array
+00001	02336AD0	b	s	0	Detroit Freestyle Completion
+00002	0233185C	b	s	0	Minneapolis Points Array
+00003	0233290C	b	s	0	Minneapolis Freestyle Completion
+00004	0231D174	b	s	0	Houston Points Array
+00005	0231E224	b	s	0	Houston Freestyle Completion
+00006	02336FC8	b	s	0	Orlando Points Array
+00007	02338078	b	s	0	Orlando Freestyle Completion
+00008	02334A60	b	s	0	Miami Points Array
+00009	02335B10	b	s	0	Miami Freestyle Completion
+0000A	02334C08	b	s	0	St. Louis 1 Points Array
+0000B	02335CB8	b	s	0	St. Louis 1 Freestyle Completion
+0000C	023328D8	b	s	0	San Diego Points Array
+0000D	02333988	b	s	0	San Diego Freestyle Completion
+0000E	02333CD4	b	s	0	Oakland 1 Points Array
+0000F	02334D84	b	s	0	Oakland 1 Freestyle Completion
+00010	023340D4	b	s	0	San Antonio Points Array
+00011	02335184	b	s	0	San Antonio Freestyle Completion
+00012	02327848	b	s	0	Tacoma Points Array
+00013	023288F8	b	s	0	Tacoma Freestyle Completion
+00014	02325750	b	s	0	Oakland 2 Points Array
+00015	02326800	b	s	0	Oakland 2 Freestyle Completion
+00016	0232EE58	b	s	0	Indianapolis Points Array
+00017	0232FF08	b	s	0	Indianapolis Freestyle Completion
+00018	0232BC1C	b	s	0	St. Louis 2 Points Array
+00019	0232CCCC	b	s	0	St. Louis 2 Freestyle Completion
+0001A	0231E428	b	s	0	New Orleans Points Array
+0001B	0231F4D8	b	s	0	New Orleans Freestyle Completion
+0001C	0233A7D8	b	s	0	Las Vegas Points Array
+0001D	0233B888	b	s	0	Las Vegas Freestyle Completion

@@ -47,8 +47,53 @@ state("DeSmuME_0.9.13_x64")
     byte ds_lapsCompleted_minneapolis_USA : 0xAC42648;         // 0x232D248
     byte ds_lapsCompleted_lasVegas_USA : 0xAC4A31C;            // 0x2334F1C
 
-    byte4 ds_detroitFreestylePointsArray_USA : 0xAC4AE20;      // 0x2335A20
-    bool ds_detroitFreestyleCompleted_USA : 0xAC4BED0;         // 0x2336AD0
+    byte4 ds_detroitFreestylePointsArray_USA : 0xAC4AE20;       // 0x2335A20
+    bool  ds_detroitFreestyleCompleted_USA : 0xAC4BED0;         // 0x2336AD0
+
+    byte4 ds_minneapolisFreestylePointsArray_USA : 0x0000000;   // 0x0000000
+    bool  ds_minneapolisFreestyleCompleted_USA : 0x0000000;     // 0x0000000
+
+    byte4 ds_houstonFreestylePointsArray_USA : 0x0000000;       // 0x0000000
+    bool  ds_houstonFreestyleCompleted_USA : 0x0000000;         // 0x0000000
+
+    byte4 ds_orlandoFreestylePointsArray_USA : 0x0000000;       // 0x0000000
+    bool  ds_orlandoFreestyleCompleted_USA : 0x0000000;         // 0x0000000
+
+    byte4 ds_miamiFreestylePointsArray_USA : 0x0000000;         // 0x0000000
+    bool  ds_miamiFreestyleCompleted_USA : 0x0000000;           // 0x0000000
+
+    byte4 ds_stLouis1FreestylePointsArray_USA : 0x0000000;      // 0x0000000
+    bool  ds_stLouis1FreestyleCompleted_USA : 0x0000000;        // 0x0000000
+
+    byte4 ds_sanDiegoFreestylePointsArray_USA : 0x0000000;      // 0x0000000
+    bool  ds_sanDiegoFreestyleCompleted_USA : 0x0000000;        // 0x0000000
+
+    byte4 ds_oakland1FreestylePointsArray_USA : 0x0000000;      // 0x0000000
+    bool  ds_oakland1FreestyleCompleted_USA : 0x0000000;        // 0x0000000
+
+    byte4 ds_sanAntonioFreestylePointsArray_USA : 0x0000000;    // 0x0000000
+    bool  ds_sanAntonioFreestyleCompleted_USA : 0x0000000;      // 0x0000000
+
+    byte4 ds_tacomaFreestylePointsArray_USA : 0x0000000;        // 0x0000000
+    bool  ds_tacomaFreestyleCompleted_USA : 0x0000000;          // 0x0000000
+
+    byte4 ds_oakland2FreestylePointsArray_USA : 0x0000000;      // 0x0000000
+    bool  ds_oakland2FreestyleCompleted_USA : 0x0000000;        // 0x0000000
+
+    byte4 ds_indianapolisFreestylePointsArray_USA : 0x0000000;  // 0x0000000
+    bool  ds_indianapolisFreestyleCompleted_USA : 0x0000000;    // 0x0000000
+
+    byte4 ds_stLouis2FreestylePointsArray_USA : 0x0000000;      // 0x0000000
+    bool  ds_stLouis2FreestyleCompleted_USA : 0x0000000;        // 0x0000000
+
+    byte4 ds_newOrleansFreestylePointsArray_USA : 0x0000000;    // 0x0000000
+    bool  ds_newOrleansFreestyleCompleted_USA : 0x0000000;      // 0x0000000
+
+    byte4 ds_lasVegasFreestylePointsArray_USA : 0x0000000;      // 0x0000000
+    bool  ds_lasVegasFreestyleCompleted_USA : 0x0000000;        // 0x0000000
+
+    
+
 
     // EUR variables
 
@@ -81,7 +126,7 @@ init
     vars.cursorPosition = 0;
     vars.worldSeriesTrackCompleted = false;
     vars.worldSeriesTrackCompletedArray = new List<bool>{};
-    vars.worldSeriesFreestylePointsArray = new List<uint>{};
+    vars.worldSeriesFreestylePoints = 0;
     vars.worldSeriesFreestylePassed = false;
     
     vars.worldSeriesFreestyleMinimumPoints = new List<uint> {
@@ -180,22 +225,21 @@ update
     if (settings["ds_worldseries_usa"])
     {
         vars.worldSeriesTrackCompletedArray = new List<bool> {
-            current.ds_detroitFreestyleCompleted_USA,
-            false
+            current.ds_detroitFreestyleCompleted_USA
         };
 
-        vars.worldSeriesFreestylePointsArray = new List<uint>{
-            0
-        };
+        vars.worldSeriesFreestylePoints = 0;
 
-        for (uint i = 0; i < 4; i++) {
-            vars.worldSeriesFreestylePointsArray[0] += current.ds_detroitFreestylePointsArray_USA[i];
+        if (vars.split == 0) {
+            for (uint i = 0; i < 4; i++) {
+                vars.worldSeriesFreestylePoints += current.ds_detroitFreestylePointsArray_USA[i];
+            }
         }
 
         if (vars.split < vars.worldSeriesTrackCompletedArray.Count)
         {
             vars.worldSeriesTrackCompleted = vars.worldSeriesTrackCompletedArray[vars.split];
-            vars.worldSeriesFreestylePassed = (vars.worldSeriesFreestylePointsArray[vars.split] >= vars.worldSeriesFreestyleMinimumPoints[vars.split]);
+            vars.worldSeriesFreestylePassed = (vars.worldSeriesFreestylePoints >= vars.worldSeriesFreestyleMinimumPoints[vars.split]);
         }
     }
 }
