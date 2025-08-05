@@ -257,6 +257,7 @@ reset
 
     if (settings["ds_worldseries_usa"])
     {
+        // TODO: implement sceneID stuff to this
         return !vars.raceActive && vars.oldRaceActive && !vars.worldSeriesTrackCompleted;
     }
 }
