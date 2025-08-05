@@ -12,12 +12,14 @@
 state("DeSmuME_0.9.13_x64")
 {
     // The comments on each address declaration are the RAM addresses as seen by DeSmuME
+    
     // USA variables
     byte ds_buttonsPressed_USA : 0xACEC268;                    // 0x23D6E68
     byte ds_cursorPosition_USA : 0xAC6CF34;                    // 0x2357B34
     bool ds_raceActive_USA : 0xAC71631;                        // 0x235C231
     byte ds_racePlacement_USA : 0xAA4B841;                     // 0x2136441
     byte ds_sceneID_USA : 0xAC6FF45;                           // 0x235AB45
+
     byte ds_lapsCompleted_sanFranStreets_USA : 0xAC35CEC;      // 0x23208EC
     byte ds_lapsCompleted_londonRails_USA : 0xAC2F040;         // 0x2319C40
     byte ds_lapsCompleted_chicagoCarnage_USA : 0xAC343C8;      // 0x231EFC8
@@ -38,7 +40,6 @@ state("DeSmuME_0.9.13_x64")
     byte ds_lapsCompleted_shoppingPrecinct_USA : 0xAC41288;    // 0x232BE88
     byte ds_lapsCompleted_stadiumStandoff_USA : 0xAC3B900;     // 0x2326500
 
-    byte ds_freestylePoints_USA : 0xA9DFFCC;                   // 0x20CABCC
     byte ds_lapsCompleted_orlando_USA : 0xAC369F4;             // 0x23215F4
     byte ds_lapsCompleted_sanDiego_USA : 0xAC4617C;            // 0x2330D7C
     byte ds_lapsCompleted_houston_USA : 0xAC3A6A8;             // 0x23252A8
@@ -91,9 +92,6 @@ state("DeSmuME_0.9.13_x64")
 
     byte4 ds_lasVegasFreestylePointsArray_USA : 0x0000000;      // 0x0000000
     bool  ds_lasVegasFreestyleCompleted_USA : 0x0000000;        // 0x0000000
-
-    
-
 
     // EUR variables
 
