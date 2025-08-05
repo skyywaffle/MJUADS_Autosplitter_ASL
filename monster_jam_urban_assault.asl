@@ -50,23 +50,23 @@ state("DeSmuME_0.9.13_x64")
     byte4 ds_detroitFreestylePointsArray_USA : 0xAC4AE20;       // 0x2335A20
     bool  ds_detroitFreestyleCompleted_USA : 0xAC4BED0;         // 0x2336AD0
 
-    byte4 ds_minneapolisFreestylePointsArray_USA : 0x0000000;   // 0x0000000
-    bool  ds_minneapolisFreestyleCompleted_USA : 0x0000000;     // 0x0000000
+    byte4 ds_minneapolisFreestylePointsArray_USA : 0xAC46C5C;   // 0x233185C
+    bool  ds_minneapolisFreestyleCompleted_USA : 0xAC47D0C;     // 0x233290C
 
-    byte4 ds_houstonFreestylePointsArray_USA : 0x0000000;       // 0x0000000
-    bool  ds_houstonFreestyleCompleted_USA : 0x0000000;         // 0x0000000
+    byte4 ds_houstonFreestylePointsArray_USA : 0xAC32574;       // 0x231D174
+    bool  ds_houstonFreestyleCompleted_USA : 0xAC33624;         // 0x231E224
 
-    byte4 ds_orlandoFreestylePointsArray_USA : 0x0000000;       // 0x0000000
-    bool  ds_orlandoFreestyleCompleted_USA : 0x0000000;         // 0x0000000
+    byte4 ds_orlandoFreestylePointsArray_USA : 0xAC4C3C8;       // 0x2336FC8
+    bool  ds_orlandoFreestyleCompleted_USA : 0xAC4D478;         // 0x2338078
 
-    byte4 ds_miamiFreestylePointsArray_USA : 0x0000000;         // 0x0000000
-    bool  ds_miamiFreestyleCompleted_USA : 0x0000000;           // 0x0000000
+    byte4 ds_miamiFreestylePointsArray_USA : 0xAC49E60;         // 0x2334A60
+    bool  ds_miamiFreestyleCompleted_USA : 0xAC4AF10;           // 0x2335B10
 
-    byte4 ds_stLouis1FreestylePointsArray_USA : 0x0000000;      // 0x0000000
-    bool  ds_stLouis1FreestyleCompleted_USA : 0x0000000;        // 0x0000000
+    byte4 ds_stLouis1FreestylePointsArray_USA : 0xAC4A008;      // 0x2334C08
+    bool  ds_stLouis1FreestyleCompleted_USA : 0xAC4B0B8;        // 0x2335CB8
 
-    byte4 ds_sanDiegoFreestylePointsArray_USA : 0x0000000;      // 0x0000000
-    bool  ds_sanDiegoFreestyleCompleted_USA : 0x0000000;        // 0x0000000
+    byte4 ds_sanDiegoFreestylePointsArray_USA : 0xAC47CD8;      // 0x23328D8
+    bool  ds_sanDiegoFreestyleCompleted_USA : 0xAC48D88;        // 0x2333988
 
     byte4 ds_oakland1FreestylePointsArray_USA : 0x0000000;      // 0x0000000
     bool  ds_oakland1FreestyleCompleted_USA : 0x0000000;        // 0x0000000
@@ -105,7 +105,7 @@ startup
     settings.Add("ds", false, "Nintendo DS");
     settings.SetToolTip("ds", "Use with DeSmuME 0.9.13");
     settings.Add("ds_speedster_usa", false, "Speedster% (USA)", "ds");
-    settings.Add("ds_worldseries_usa", false, "World Series% (USA) [NOT IMPLEMENTED]", "ds");
+    settings.Add("ds_worldseries_usa", false, "World Series% (USA)", "ds");
     settings.Add("ds_speedster_eur", false, "Speedster% (EUR) [NOT IMPLEMENTED]", "ds");
     settings.Add("ds_worldseries_eur", false, "World Series% (EUR) [NOT IMPLEMENTED]", "ds");
 }
@@ -151,6 +151,13 @@ init
 
 update
 {
+    if (settings["ds_speedster_eur"] || settings["ds_worldseries_eur"])
+    {
+        print("LiveSplit.exe FUCK YOU");
+    }
+        return false; // because ts is NOT IMPLEMENTED YET!!! FUCK YOU 🖕
+
+
     vars.oldSceneID = vars.sceneID;
     vars.oldRaceActive = vars.raceActive;
     vars.oldButtonsPressed = vars.buttonsPressed;
