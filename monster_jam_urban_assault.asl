@@ -47,7 +47,8 @@ state("DeSmuME_0.9.13_x64")
     byte ds_lapsCompleted_minneapolis_USA : 0xAC42648;         // 0x232D248
     byte ds_lapsCompleted_lasVegas_USA : 0xAC4A31C;            // 0x2334F1C
 
-    byte4 ds_detroitFreestylePointsArray : 0xAC4AE20;          // 0x2335A20
+    byte4 ds_detroitFreestylePointsArray_USA : 0xAC4AE20;      // 0x2335A20
+    bool ds_detroitFreestyleCompleted_USA : 0xAC4BED0;         // 0x2336AD0
 
     // EUR variables
 
@@ -78,15 +79,17 @@ init
     vars.raceActive = 0;
     vars.buttonsPressed = 0;
     vars.cursorPosition = 0;
-    vars.worldSeriesTrackCompleted = 0;
+    vars.worldSeriesTrackCompleted = false;
     vars.worldSeriesTrackCompletedArray = new List<bool>{};
+    vars.worldSeriesFreestylePointsArray = new List<uint>{};
+    vars.worldSeriesFreestylePassed = false;
     
     vars.worldSeriesFreestyleMinimumPoints = new List<uint> {
         /* List minimum points to get 3rd place for Freestyle events,
          * with a placeholder value for stadium races where obviously
          * minimum points is not applicable.
          */
-
+        11      // Detroit
     };
 
     vars.oldSceneID = 0;
@@ -95,7 +98,8 @@ init
     vars.oldRaceActive = 0;
     vars.oldButtonsPressed = 0;
     vars.oldCursorPosition = 0;
-    vars.oldWorldSeriesTrackCompleted = 0;
+    vars.oldWorldSeriesTrackCompleted = false;
+    vars.oldWorldSeriesTrackCompletedArray = new List<bool>{};
 
     refreshRate = 60;
 }
@@ -103,7 +107,6 @@ init
 update
 {
     vars.oldSceneID = vars.sceneID;
-    vars.oldRacePlacement = vars.racePlacement;
     vars.oldRaceActive = vars.raceActive;
     vars.oldButtonsPressed = vars.buttonsPressed;
     vars.oldCursorPosition = vars.cursorPosition;
@@ -111,16 +114,18 @@ update
     if (settings["ds_speedster_usa"] || settings["ds_worldseries_usa"])
     {
         vars.sceneID = current.ds_sceneID_USA;
-        vars.racePlacement = current.ds_racePlacement_USA;
         vars.raceActive = current.ds_raceActive_USA;
         vars.buttonsPressed = current.ds_buttonsPressed_USA;
         vars.cursorPosition = current.ds_cursorPosition_USA;
     }
 
     vars.oldLapsCompleted = vars.lapsCompleted;
+    vars.oldRacePlacement = vars.racePlacement;
     
     if (settings["ds_speedster_usa"])
     {
+        vars.racePlacement = current.ds_racePlacement_USA;
+
         vars.lapsCompletedArray = new List<uint> {
             current.ds_lapsCompleted_sanFranStreets_USA,
             current.ds_lapsCompleted_londonRails_USA,
@@ -164,12 +169,35 @@ update
             251,    // Shopping Precinct
             55      // Stadium Standoff
         };
-    }
-    
-    if (vars.split < vars.lapsCompletedArray.Count)
-        vars.lapsCompleted = vars.lapsCompletedArray[vars.split];
 
-    return settings["ds_speedster_usa"] && !settings["ds_worldseries_usa"] && !settings["ds_speedster_eur"] && !settings["ds_worldseries_eur"];
+        if (vars.split < vars.lapsCompletedArray.Count)
+            vars.lapsCompleted = vars.lapsCompletedArray[vars.split];
+    }
+
+    vars.oldWorldSeriesTrackCompletedArray = vars.worldSeriesTrackCompletedArray;
+    vars.oldWorldSeriesTrackCompleted = vars.worldSeriesTrackCompleted;
+
+    if (settings["ds_worldseries_usa"])
+    {
+        vars.worldSeriesTrackCompletedArray = new List<bool> {
+            current.ds_detroitFreestyleCompleted_USA,
+            false
+        };
+
+        vars.worldSeriesFreestylePointsArray = new List<uint>{
+            0
+        };
+
+        for (uint i = 0; i < 4; i++) {
+            vars.worldSeriesFreestylePointsArray[0] += current.ds_detroitFreestylePointsArray_USA[i];
+        }
+
+        if (vars.split < vars.worldSeriesTrackCompletedArray.Count)
+        {
+            vars.worldSeriesTrackCompleted = vars.worldSeriesTrackCompletedArray[vars.split];
+            vars.worldSeriesFreestylePassed = (vars.worldSeriesFreestylePointsArray[vars.split] >= vars.worldSeriesFreestyleMinimumPoints[vars.split]);
+        }
+    }
 }
 
 start
@@ -211,6 +239,13 @@ split
             }
         }
     }
+
+    if (settings["ds_worldseries_usa"]) {
+        if (vars.worldSeriesTrackCompleted && !vars.oldWorldSeriesTrackCompleted && vars.worldSeriesFreestylePassed) {
+            vars.split++;
+            return true;
+        }
+    }
 }
 
 reset
@@ -218,5 +253,10 @@ reset
     if (settings["ds_speedster_usa"])
     {
         return vars.split < vars.raceID.Count && vars.oldSceneID == vars.raceID[vars.split] && vars.sceneID == 0 && vars.lapsCompleted < 3;
+    }
+
+    if (settings["ds_worldseries_usa"])
+    {
+        return !vars.raceActive && vars.oldRaceActive && !vars.worldSeriesTrackCompleted;
     }
 }
