@@ -166,8 +166,7 @@ init
 
 update
 {
-    print("Update start: split = " + vars.split + ", raceID.Count = " + vars.raceID.Count);
-
+    // TODO: MAKE THIS MORE OPTIMIZED (MAKE ARRAYS IN INIT HAVE SPECIFIC SIZES AS WELL)
     if (settings["ds_speedster_eur"] || settings["ds_worldseries_eur"])
     {
         print("LiveSplit.exe FUCK YOU");
