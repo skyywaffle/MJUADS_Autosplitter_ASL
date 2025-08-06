@@ -161,7 +161,7 @@ init
     vars.oldWorldSeriesTrackCompleted = true;
     vars.oldWorldSeriesTrackCompletedArray = new List<bool>{};
 
-    refreshRate = 60;
+    refreshRate = 59.727; // synced with DS's refresh rate
 }
 
 update
